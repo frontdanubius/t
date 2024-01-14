@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flower Paradise</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-color: #4CAF50;
+      padding: 20px;
+      text-align: center;
+      color: white;
+    }
+
+    section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      padding: 20px;
+    }
+
+    .flower-card {
+      background-color: white;
+      margin: 10px;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+
+    button {
+      padding: 10px;
+      margin-top: 10px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Flower Paradise</h1>
+  </header>
+
+  <section id="flowerGallery"></section>
+
+  <script>
+    const flowers = [
+      { name: 'Rose', image: 'rose.jpg' },
+      { name: 'Sunflower', image: 'sunflower.jpg' },
+      { name: 'Tulip', image: 'tulip.jpg' },
+      // Add more flowers as needed
+    ];
+
+    const flowerGallery = document.getElementById('flowerGallery');
+
+    flowers.forEach((flower) => {
+      const flowerCard = document.createElement('div');
+      flowerCard.className = 'flower-card';
+
+      const img = document.createElement('img');
+      img.src = flower.image;
+      img.alt = flower.name;
+      img.style.width = '100%';
+
+      const name = document.createElement('h3');
+      name.textContent = flower.name;
+
+      flowerCard.appendChild(img);
+      flowerCard.appendChild(name);
+
+      flowerGallery.appendChild(flowerCard);
+    });
+
+    function askUserName() {
+      const userName = prompt('Welcome to Flower Paradise! What\'s your name?');
+      if (userName) {
+        alert(`Hello, ${userName}! We hope you enjoy our beautiful flowers.`);
+      } else {
+        alert('Hello there! We hope you enjoy our beautiful flowers.');
+      }
+    }
+
+    window.onload = askUserName;
+  </script>
+</body>
+
+</html>
