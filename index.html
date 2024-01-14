@@ -61,39 +61,83 @@
       { name: 'Rose', image: 'rose.jpg' },
       { name: 'Sunflower', image: 'sunflower.jpg' },
       { name: 'Tulip', image: 'tulip.jpg' },
-      // Add more flowers as needed
+      { name: 'Daisy', image: 'daisy.jpg' },
+      { name: 'Lily', image: 'lily.jpg' },
+      { name: 'Orchid', image: 'orchid.jpg' },
+      { name: 'Carnation', image: 'carnation.jpg' },
+      { name: 'Poppy', image: 'poppy.jpg' },
+      { name: 'Hydrangea', image: 'hydrangea.jpg' },
+      { name: 'Cherry Blossom', image: 'cherry_blossom.jpg' }
     ];
 
     const flowerGallery = document.getElementById('flowerGallery');
+    const gameAttempts = 3;
+    let currentAttempts = 0;
+    let selectedFlower;
 
-    flowers.forEach((flower) => {
-      const flowerCard = document.createElement('div');
-      flowerCard.className = 'flower-card';
+    function initializeGame() {
+      // Randomly select a flower for the game
+      selectedFlower = flowers[Math.floor(Math.random() * flowers.length)];
+      renderFlowerGallery();
+      askUserName();
+    }
 
-      const img = document.createElement('img');
-      img.src = flower.image;
-      img.alt = flower.name;
-      img.style.width = '100%';
+    function renderFlowerGallery() {
+      flowerGallery.innerHTML = '';
 
-      const name = document.createElement('h3');
-      name.textContent = flower.name;
+      flowers.forEach((flower) => {
+        const flowerCard = document.createElement('div');
+        flowerCard.className = 'flower-card';
 
-      flowerCard.appendChild(img);
-      flowerCard.appendChild(name);
+        const img = document.createElement('img');
+        img.src = flower.image;
+        img.alt = flower.name;
+        img.style.width = '100%';
 
-      flowerGallery.appendChild(flowerCard);
-    });
+        const name = document.createElement('h3');
+        name.textContent = flower.name;
+
+        flowerCard.appendChild(img);
+        flowerCard.appendChild(name);
+
+        flowerGallery.appendChild(flowerCard);
+      });
+    }
 
     function askUserName() {
-      const userName = prompt('Welcome to Flower Paradise! What\'s your name?');
+      const userName = prompt('Welcome to Flower Paradise! What\'s your name, Edina?');
       if (userName) {
-        alert(`Hello, ${userName}! We hope you enjoy our beautiful flowers.`);
+        alert(`Hello, ${userName}! Let's play the Flower Guessing Game.`);
+        playGame();
       } else {
-        alert('Hello there! We hope you enjoy our beautiful flowers.');
+        alert('Hello there! Let\'s play the Flower Guessing Game.');
+        playGame();
       }
     }
 
-    window.onload = askUserName;
+    function playGame() {
+      while (currentAttempts < gameAttempts) {
+        const userGuess = prompt(`Attempt ${currentAttempts + 1}/${gameAttempts}: Can you guess the name of this flower?`);
+        if (userGuess && userGuess.toLowerCase() === selectedFlower.name.toLowerCase()) {
+          alert(`Congratulations, Edina! You guessed it right. It's ${selectedFlower.name}.`);
+          resetGame();
+          return;
+        } else {
+          alert(`Sorry, Edina! That's not correct. Try again.`);
+          currentAttempts++;
+        }
+      }
+
+      alert(`Game Over, Edina! The correct answer was ${selectedFlower.name}.`);
+      resetGame();
+    }
+
+    function resetGame() {
+      currentAttempts = 0;
+      initializeGame();
+    }
+
+    window.onload = initializeGame;
   </script>
 </body>
 
