@@ -88,7 +88,7 @@
       <p id="question7">7. Does the hotel have a fitness center?</p>
       <div id="options7" class="options"></div>
 
-      <p id="question8">8. How far is the hotel from Regent's Park?</p>
+      <p id="question8">8. How far is the hotel from Regent's Park in miles ?</p>
       <div id="options8" class="options"></div>
     </div>
 
@@ -136,23 +136,23 @@
     let score = 0;
 
     function displayOptions(questionNumber) {
-      const optionsContainer = document.getElementById(`options${questionNumber}`);
-      const question = questions[`question${questionNumber}`];
+    const optionsContainer = document.getElementById(`options${questionNumber}`);
+    const question = questions[`question${questionNumber}`];
 
-      optionsContainer.innerHTML = '';
+    optionsContainer.innerHTML = '';
 
-      question.options.forEach((option) => {
-        const optionElement = document.createElement('div');
-        optionElement.classList.add('option');
-        optionElement.textContent = option;
+    question.options.forEach((option) => {
+      const optionElement = document.createElement('div');
+      optionElement.classList.add('option');
+      optionElement.textContent = option;
 
-        optionElement.addEventListener('click', () => {
-          selectOption(questionNumber, option, question.correctAnswer);
-        });
-
-        optionsContainer.appendChild(optionElement);
+      optionElement.addEventListener('click', () => {
+        selectOption(questionNumber, option, question.correctAnswer);
       });
-    }
+
+      optionsContainer.appendChild(optionElement);
+    });
+  }
 
     function selectOption(questionNumber, selectedOption, correctAnswer) {
       const optionsContainer = document.getElementById(`options${questionNumber}`);
