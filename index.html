@@ -38,6 +38,23 @@
       border: none;
       border-radius: 4px;
     }
+
+    #options {
+      display: flex;
+      justify-content: center;
+    }
+
+    .option {
+      margin: 10px;
+      padding: 10px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .score {
+      float: right;
+    }
   </style>
 </head>
 
@@ -51,81 +68,168 @@
 
     <div id="questions">
       <p id="question1">1. What year was Danubius Hotel Regents Park founded?</p>
-      <input type="text" id="answerInput1" placeholder="Your answer">
+      <div id="options1" class="options"></div>
 
       <p id="question2">2. In which city is Danubius Hotel Regents Park located?</p>
-      <input type="text" id="answerInput2" placeholder="Your answer">
+      <div id="options2" class="options"></div>
 
       <p id="question3">3. What is the total number of rooms in the hotel?</p>
-      <input type="text" id="answerInput3" placeholder="Your answer">
+      <div id="options3" class="options"></div>
 
       <p id="question4">4. How many meeting rooms does the hotel have?</p>
-      <input type="text" id="answerInput4" placeholder="Your answer">
+      <div id="options4" class="options"></div>
 
       <p id="question5">5. What amenities does the hotel's Minsky's Restaurant offer?</p>
-      <input type="text" id="answerInput5" placeholder="Your answer">
+      <div id="options5" class="options"></div>
 
       <p id="question6">6. What is the name of the hotel's bar?</p>
-      <input type="text" id="answerInput6" placeholder="Your answer">
+      <div id="options6" class="options"></div>
 
       <p id="question7">7. Does the hotel have a fitness center?</p>
-      <input type="text" id="answerInput7" placeholder="Your answer">
+      <div id="options7" class="options"></div>
 
       <p id="question8">8. How far is the hotel from Regent's Park?</p>
-      <input type="text" id="answerInput8" placeholder="Your answer">
+      <div id="options8" class="options"></div>
     </div>
 
     <button onclick="checkAnswers()">Submit Answers</button>
     <p id="result"></p>
+    <div class="score" id="score">Score: 0</div>
   </section>
 
   <script>
-    function checkAnswers() {
-      const answers = {
-        answer1: document.getElementById('answerInput1').value.toLowerCase(),
-        answer2: document.getElementById('answerInput2').value.toLowerCase(),
-        answer3: document.getElementById('answerInput3').value.toLowerCase(),
-        answer4: document.getElementById('answerInput4').value.toLowerCase(),
-        answer5: document.getElementById('answerInput5').value.toLowerCase(),
-        answer6: document.getElementById('answerInput6').value.toLowerCase(),
-        answer7: document.getElementById('answerInput7').value.toLowerCase(),
-        answer8: document.getElementById('answerInput8').value.toLowerCase(),
-      };
+    const questions = {
+      question1: {
+        options: ['1972', '1973', '1974'],
+        correctAnswer: '1973',
+      },
+      question2: {
+        options: ['Paris', 'Berlin', 'London'],
+        correctAnswer: 'London',
+      },
+      question3: {
+        options: ['200', '360', '500'],
+        correctAnswer: '360',
+      },
+      question4: {
+        options: ['5', '10', '15'],
+        correctAnswer: '10',
+      },
+      question5: {
+        options: ['Local Cuisine', 'Italian Cuisine', 'International Cuisine'],
+        correctAnswer: 'International Cuisine',
+      },
+      question6: {
+        options: ['Pavilion Lounge Bar', 'Sky Lounge', 'Garden Bar'],
+        correctAnswer: 'Pavilion Lounge Bar',
+      },
+      question7: {
+        options: ['Yes', 'No', 'Only on weekends'],
+        correctAnswer: 'Yes',
+      },
+      question8: {
+        options: ['0.1 miles', '0.2 miles', '0.3 miles'],
+        correctAnswer: '0.2 miles',
+      },
+    };
 
-      const correctAnswers = {
-        answer1: '1973',
-        answer2: 'london',
-        answer3: '360',
-        answer4: '10',
-        answer5: 'international cuisine',
-        answer6: 'pavilion lounge bar',
-        answer7: 'yes',
-        answer8: '0.2 miles',
-      };
+    let score = 0;
 
-      const resultElement = document.getElementById('result');
-      let correctCount = 0;
+    function displayOptions(questionNumber) {
+      const optionsContainer = document.getElementById(`options${questionNumber}`);
+      const question = questions[`question${questionNumber}`];
 
-      for (let i = 1; i <= 8; i++) {
-        const currentAnswer = 'answer' + i;
-        const currentQuestion = 'question' + i;
+      optionsContainer.innerHTML = '';
 
-        const userAnswer = answers[currentAnswer];
-        const correctAnswer = correctAnswers[currentAnswer];
+      question.options.forEach((option) => {
+        const optionElement = document.createElement('div');
+        optionElement.classList.add('option');
+        optionElement.textContent = option;
 
-        if (userAnswer === correctAnswer) {
-          correctCount++;
-          document.getElementById(currentQuestion).style.color = 'green';
-        } else {
-          document.getElementById(currentQuestion).style.color = 'red';
-        }
+        optionElement.addEventListener('click', () => {
+          selectOption(questionNumber, option, question.correctAnswer);
+        });
+
+        optionsContainer.appendChild(optionElement);
+      });
+    }
+
+    function selectOption(questionNumber, selectedOption, correctAnswer) {
+      const optionsContainer = document.getElementById(`options${questionNumber}`);
+      const options = optionsContainer.getElementsByClassName('option');
+
+      for (const option of options) {
+        option.style.backgroundColor = '';
       }
 
-      if (correctCount === 8) {
+      if (selectedOption === correctAnswer) {
+        optionsContainer.style.border = '2px solid green';
+      } else {
+        optionsContainer.style.border = '2px solid red';
+        optionsContainer.querySelector(`.option:contains(${ optionsContainer.querySelector(`.option:contains(${correctAnswer})`).style.backgroundColor = 'green';
+      }
+
+      // Display the result after a brief delay
+      setTimeout(() => {
+        optionsContainer.style.border = ''; // Remove the red or green border
+        displayNextQuestion(questionNumber + 1);
+      }, 1500);
+    }
+
+    // Custom :contains() selector
+    // jQuery-like functionality to find an element containing specific text
+    // Adding it to the Element prototype
+    HTMLElement.prototype.containsText = function (text) {
+      return this.innerText.toLowerCase().includes(text.toLowerCase());
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Display the first question on page load
+      displayNextQuestion(1);
+    });
+
+    function displayNextQuestion(questionNumber) {
+      if (questionNumber <= 8) {
+        displayOptions(questionNumber);
+      } else {
+        // All questions answered, display final result
+        displayResult();
+      }
+    }
+
+    function displayResult() {
+      const resultElement = document.getElementById('result');
+      const scoreElement = document.getElementById('score');
+
+      if (score === 8) {
         resultElement.textContent = 'Congratulations! You\'ve answered all questions correctly and won a prize!';
       } else {
         resultElement.textContent = 'Sorry, you didn\'t answer all questions correctly. Try again.';
       }
+
+      // Display the final score
+      scoreElement.textContent = `Score: ${score}`;
+    }
+
+    function checkAnswers() {
+      const resultElement = document.getElementById('result');
+
+      resultElement.textContent = ''; // Clear previous result
+
+      for (let i = 1; i <= 8; i++) {
+        const selectedOption = document.querySelector(`#options${i} .option:hover`);
+        if (selectedOption) {
+          const selectedText = selectedOption.textContent;
+          const correctAnswer = questions[`question${i}`].correctAnswer;
+
+          if (selectedText === correctAnswer) {
+            score++;
+          }
+        }
+      }
+
+      // Display the result after calculating the score
+      displayResult();
     }
   </script>
 </body>
